@@ -2,10 +2,12 @@
 #define GAME_H
 
 #include<SFML/Graphics.hpp>
-#include<vector>
 #include<iostream>
-#include<utility>
-#include"MazeTile.h"
+#include"Maze.h"
+
+#define TILE_SIZE 25
+#define W_MAX_WIDTH 1920
+#define W_MAX_HEIGHT 1080
 
 class Game
 {
@@ -19,16 +21,11 @@ class Game
 
     private:
 
-        void InitWindow();
-        void InitMaze(std::pair<size_t, size_t> dimensions);
-
+        void InitWindow(size_t width = W_MAX_WIDTH, size_t height = W_MAX_HEIGHT);
+        std::pair<size_t, size_t> GetInputMazeDimensions() const;
         void Pollevents();
-        void UpdateMaze();
 
-        void RenderMaze();
-
-        std::vector<MazeTile> _mazeTiles;
-
+        Maze* _maze;
         sf::RenderWindow* _window;
 };
 

@@ -2,36 +2,44 @@
 
 Game::Game()
 {
-    InitWindow();
+    srand(clock());
 
-    InitMaze(std::make_pair(6,7));
+    auto input = GetInputMazeDimensions();
+    InitWindow(input.first * TILE_SIZE, input.second * TILE_SIZE);
+
+    _maze = new Maze(input.first, input.second, TILE_SIZE);
 }
 
 Game::~Game()
 {
+    delete _maze;
     delete _window;
 }
 
-void Game::InitWindow()
+std::pair<size_t, size_t> Game::GetInputMazeDimensions() const
 {
-    sf::VideoMode videomode;
+    size_t width, height;
 
-    videomode.width = 960;
-    videomode.height = 720;
+    do{
+        std::cout<<"Podaj szerosc labiryntu: ";
+    }while(std::cin>>width && (width*TILE_SIZE > W_MAX_WIDTH));
 
-    _window = new sf::RenderWindow(videomode, "Maze generator");
-    _window->setFramerateLimit(60);
+    do{
+        std::cout<<"Podaj wysokosc labiryntu: ";
+    }while(std::cin>>height && (height*TILE_SIZE > W_MAX_HEIGHT));
+
+    return std::make_pair(width, height);
 }
 
-void Game::InitMaze(std::pair<size_t, size_t> dimensions)
+void Game::InitWindow(size_t width, size_t height)
 {
-    float gridSize = 30.f;
+    //Create window
+    sf::VideoMode videomode;
 
-    for(size_t i=0; i< dimensions.first * dimensions.second; i++)
-        _mazeTiles.push_back(MazeTile(sf::Vector2f(gridSize, gridSize), sf::Vector2f((i%(dimensions.first))*gridSize, (i/dimensions.first)*gridSize)));
+    videomode.width = width;
+    videomode.height = height;
 
-    _mazeTiles[0].Visit();
-
+    _window = new sf::RenderWindow(videomode, "Maze generator");
 }
 
 void Game::Pollevents()
@@ -45,30 +53,20 @@ void Game::Pollevents()
     }
 }
 
-void Game::UpdateMaze()
-{
-
-}
-
 void Game::UpdateGame()
 {
     Pollevents();
-    UpdateMaze();
+
+    _maze->UpdateMaze();
 
     RenderGame();
-}
-
-void Game::RenderMaze()
-{
-    for(auto& tile : _mazeTiles)
-        tile.Render(*_window);
 }
 
 void Game::RenderGame()
 {
     _window->clear();
 
-    RenderMaze();
+    _maze->RenderMaze(*_window);
 
     _window->display();
 }

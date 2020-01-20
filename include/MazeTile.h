@@ -7,7 +7,7 @@
 class MazeTile
 {
     public:
-        MazeTile(sf::Vector2f size, sf::Vector2f position);
+        MazeTile(float size, sf::Vector2f position);
         ~MazeTile() = default;
 
         void Render(sf::RenderTarget& window);
@@ -26,7 +26,7 @@ class MazeTile
 
     private:
 
-        void InitBorders(sf::Vector2f size, sf::Vector2f position);
+        void InitBorders(float size, sf::Vector2f position);
 
         bool _visited;
 

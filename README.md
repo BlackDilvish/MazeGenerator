@@ -5,4 +5,4 @@ A program that generates a maze using a backtracking algorithm
 - [Recursive Backtracking](https://en.wikipedia.org/wiki/Maze_generation_algorithm)
 
 ## Screenshots
-<img src="./images/Mgen.png" width="600"/>
+<img src="./images/mgen.png" width="600"/>
